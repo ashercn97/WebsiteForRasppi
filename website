@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Image Display</title>
+<script>
+function fetchLatestImage() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'https://api.github.com/repos/username/repo/commits?path=path_to_image_folder');
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            var response = JSON.parse(xhr.responseText);
+            var imageUrl = response[0].commit.tree.url + "/path_to_your_image.jpg";
+            document.getElementById('displayedImage').src = imageUrl + "?timestamp=" + new Date().getTime();
+        }
+    };
+    xhr.send();
+}
+
+// Fetch the latest image on page load
+window.onload = fetchLatestImage;
+
+// Optionally, set an interval to fetch the latest image, e.g., every 5 minutes
+// setInterval(fetchLatestImage, 300000);
+</script>
+</head>
+<body>
+<img id="displayedImage" src="placeholder_for_initial_image_load.jpg">
+</body>
+</html>
